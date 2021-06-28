@@ -257,6 +257,7 @@ Makefile.in
 /fish/prepopts.h
 /fish/rc_protocol.c
 /fish/rc_protocol.h
+/fish/run-?.c
 /fish/run.h
 /fish/stamp-guestfish.pod
 /fish/stamp-libguestfs-tools.conf.pod
@@ -310,6 +311,7 @@ Makefile.in
 /haskell/Guestfs030Config
 /haskell/Guestfs050LVCreate
 /haskell/Guestfs.hs
+/include/guestfs.h
 /inspector/actual-*.xml
 /inspector/stamp-virt-inspector.pod
 /inspector/virt-inspector
@@ -324,6 +326,7 @@ Makefile.in
 /java/doc-stamp
 /java/examples/guestfs-java.3
 /java/examples/stamp-guestfs-java.pod
+/lib/actions-?.c
 /lib/actions-variants.c
 /lib/bindtests.c
 /lib/event-string.c
