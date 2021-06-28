@@ -202,10 +202,21 @@ add_drive_standard_params (guestfs_h *g, struct backend_direct_data *data,
 {
   if (!drv->overlay) {
     CLEANUP_FREE char *file = NULL;
+    CLEANUP_FREE char *token = NULL;
 
     /* file= parameter. */
     file = guestfs_int_drive_source_qemu_param (g, &drv->src);
-    append_list_format ("file=%s", file);
+    if (strncmp(drv->secobject, "secret", strlen("secret")) == 0) {
+      /* get the first token */
+      token = strtok(file, ",");
+      /* walk through other tokens */
+      while ( token != NULL ) {
+        append_list(token);
+        token = strtok(NULL, ",");
+      }
+    } else {
+      append_list_format ("file=%s", file);
+    }
 
     if (drv->readonly)
       append_list ("snapshot=on");
@@ -606,6 +617,11 @@ launch_direct (guestfs_h *g, void *datav, const char *arg)
       append_list ("rng=rng0");
     } end_list ();
   }
+  start_list ("--object") {
+    append_list ("secret");
+    append_list ("id=sec0");
+    append_list ("data=backing");
+  } end_list ();
 
   /* Create the virtio-scsi bus. */
   start_list ("-device") {
