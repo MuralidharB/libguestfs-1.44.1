@@ -206,7 +206,7 @@ add_drive_standard_params (guestfs_h *g, struct backend_direct_data *data,
 
     /* file= parameter. */
     file = guestfs_int_drive_source_qemu_param (g, &drv->src);
-    if (strncmp(drv->secobject, "secret", strlen("secret")) == 0) {
+    if (drv->secobject && strncmp(drv->secobject, "secret", strlen("secret")) == 0) {
       /* get the first token */
       token = strtok(file, ",");
       /* walk through other tokens */
