@@ -55,13 +55,14 @@ guestfs_int_py_add_drive (PyObject *self, PyObject *args)
   PyObject *py_secret;
   PyObject *py_cachemode;
   PyObject *py_discard;
+  PyObject *py_object;
   PyObject *py_copyonread;
   PyObject *py_blocksize;
 
   optargs_s.bitmask = 0;
 
-  if (!PyArg_ParseTuple (args, (char *) "OsOOOOOOOOOOOOO:guestfs_add_drive",
-                         &py_g, &filename, &py_readonly, &py_format, &py_iface, &py_name, &py_label, &py_protocol, &py_server, &py_username, &py_secret, &py_cachemode, &py_discard, &py_copyonread, &py_blocksize))
+  if (!PyArg_ParseTuple (args, (char *) "OsOOOOOOOOOOOOOO:guestfs_add_drive",
+                         &py_g, &filename, &py_readonly, &py_format, &py_iface, &py_name, &py_label, &py_protocol, &py_server, &py_username, &py_secret, &py_cachemode, &py_discard, &py_object, &py_copyonread, &py_blocksize))
     goto out;
   g = get_handle (py_g);
 
@@ -144,6 +145,13 @@ guestfs_int_py_add_drive (PyObject *self, PyObject *args)
   if (py_blocksize != Py_None) {
     optargs_s.bitmask |= GUESTFS_ADD_DRIVE_OPTS_BLOCKSIZE_BITMASK;
     optargs_s.blocksize = PyLong_AsLong (py_blocksize);
+    if (PyErr_Occurred ()) goto out;
+  }
+#endif
+#ifdef GUESTFS_ADD_DRIVE_OPTS_OBJECT_BITMASK
+  if (py_object != Py_None) {
+    optargs_s.bitmask |= GUESTFS_ADD_DRIVE_OPTS_OBJECT_BITMASK;
+    optargs_s.secobject = guestfs_int_py_asstring (py_object);
     if (PyErr_Occurred ()) goto out;
   }
 #endif

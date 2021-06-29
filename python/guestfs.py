@@ -386,6 +386,7 @@ class GuestFS(object):
                   username: Optional[str] = None, secret: Optional[str] = None,
                   cachemode: Optional[str] = None,
                   discard: Optional[str] = None,
+                  obj: Optional[str] = None,
                   copyonread: Optional[bool] = None,
                   blocksize: Optional[int] = None) -> None:
         """This function adds a disk image called filename to the
@@ -640,7 +641,7 @@ class GuestFS(object):
         self._check_not_closed()
         r = libguestfsmod.add_drive(self._o, filename, readonly, format, iface,
                                     name, label, protocol, server, username,
-                                    secret, cachemode, discard, copyonread,
+                                    secret, cachemode, discard, obj, copyonread,
                                     blocksize)
         return r
 
