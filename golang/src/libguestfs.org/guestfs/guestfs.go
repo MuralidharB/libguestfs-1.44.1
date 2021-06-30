@@ -1367,6 +1367,9 @@ type OptargsAdd_drive struct {
     /* Discard field is ignored unless Discard_is_set == true */
     Discard_is_set bool
     Discard string
+    /* Discard field is ignored unless Obj_is_set == true */
+    Obj_is_set bool
+    Obj string
     /* Copyonread field is ignored unless Copyonread_is_set == true */
     Copyonread_is_set bool
     Copyonread bool
@@ -1446,6 +1449,11 @@ func (g *Guestfs) Add_drive (filename string, optargs *OptargsAdd_drive) error {
         if optargs.Blocksize_is_set {
             c_optargs.bitmask |= C.GUESTFS_ADD_DRIVE_OPTS_BLOCKSIZE_BITMASK
             c_optargs.blocksize = C.int (optargs.Blocksize)
+        }
+        if optargs.Obj_is_set {
+            c_optargs.bitmask |= C.GUESTFS_ADD_DRIVE_OPTS_OBJECT_BITMASK
+            c_optargs.secobject = C.CString (optargs.Obj)
+            defer C.free (unsafe.Pointer (c_optargs.secobject))
         }
     }
 
